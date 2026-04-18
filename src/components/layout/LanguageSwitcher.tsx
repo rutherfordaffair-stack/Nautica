@@ -1,43 +1,42 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { Globe } from 'lucide-react'
 
-const LANGUAGES = [
-  { code: 'ht', label: 'Kreyòl', flag: '🇭🇹' },
-  { code: 'fr', label: 'Français', flag: '🇫🇷' },
-  { code: 'en', label: 'English', flag: '🇺🇸' },
-  { code: 'es', label: 'Español', flag: '🇪🇸' },
-]
-
 export function LanguageSwitcher() {
-  const [open, setOpen] = useState(false)
-  const [current, setCurrent] = useState(LANGUAGES[0])
+  useEffect(() => {
+    if (document.getElementById('google-translate-script')) return
+    window.googleTranslateElementInit = () => {
+      new (window as any).google.translate.TranslateElement(
+        {
+          pageLanguage: 'ht',
+          includedLanguages: 'ht,fr,en,es,pt,ar,zh-CN,de,it,ru',
+          layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false,
+        },
+        'google_translate_element'
+      )
+    }
+    const script = document.createElement('script')
+    script.id = 'google-translate-script'
+    script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
+    script.async = true
+    document.body.appendChild(script)
+  }, [])
 
   return (
-    <div className="relative">
-      <button
-        onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 hover:border-ocean-300 hover:bg-ocean-50 transition-all text-sm font-medium text-gray-700"
-      >
-        <Globe className="w-4 h-4 text-ocean-500" />
-        <span>{current.flag} {current.label}</span>
-      </button>
-
-      {open && (
-        <div className="absolute right-0 top-10 w-40 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-50 animate-slide-up">
-          {LANGUAGES.map((lang) => (
-            <button
-              key={lang.code}
-              onClick={() => { setCurrent(lang); setOpen(false) }}
-              className={`w-full flex items-center gap-2.5 px-4 py-2 text-sm transition-colors ${current.code === lang.code ? 'bg-ocean-50 text-ocean-700 font-semibold' : 'text-gray-700 hover:bg-gray-50'}`}
-            >
-              <span>{lang.flag}</span>
-              <span>{lang.label}</span>
-            </button>
-          ))}
-        </div>
-      )}
+    <div className="flex items-center gap-1.5">
+      <Globe className="w-4 h-4 text-ocean-500 shrink-0" />
+      <div id="google_translate_element" className="text-sm" />
+      <style>{`
+        .goog-te-gadget { font-family: inherit !important; font-size: 13px !important; }
+        .goog-te-gadget-simple { border: 1.5px solid #e2e8f0 !important; border-radius: 10px !important; padding: 4px 10px !important; background: white !important; cursor: pointer !important; }
+        .goog-te-gadget-simple:hover { border-color: #0369a1 !important; background: #f0f9ff !important; }
+        .goog-te-gadget-simple img { display: none !important; }
+        .goog-te-banner-frame { display: none !important; }
+        body { top: 0 !important; }
+        .skiptranslate { display: none !important; }
+      `}</style>
     </div>
   )
 }
