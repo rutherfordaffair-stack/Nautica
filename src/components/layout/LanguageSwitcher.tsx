@@ -6,7 +6,7 @@ import { Globe } from 'lucide-react'
 export function LanguageSwitcher() {
   useEffect(() => {
     if (document.getElementById('google-translate-script')) return
-    window.googleTranslateElementInit = () => {
+    ;(window as any).googleTranslateElementInit = () => {
       new (window as any).google.translate.TranslateElement(
         {
           pageLanguage: 'ht',
