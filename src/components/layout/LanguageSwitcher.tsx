@@ -1,19 +1,29 @@
 'use client'
 
-import { useEffect } from 'react'
-import { Globe } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Globe, ChevronDown } from 'lucide-react'
+
+const LANGS = [
+  { code: 'ht', label: 'Kreyòl', flag: '🇭🇹' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'en', label: 'English', flag: '🇺🇸' },
+  { code: 'es', label: 'Español', flag: '🇪🇸' },
+  { code: 'pt', label: 'Português', flag: '🇵🇹' },
+  { code: 'de', label: 'Deutsch', flag: '🇩🇪' },
+  { code: 'it', label: 'Italiano', flag: '🇮🇹' },
+  { code: 'ar', label: 'العربية', flag: '🇸🇦' },
+  { code: 'zh-CN', label: '中文', flag: '🇨🇳' },
+]
 
 export function LanguageSwitcher() {
+  const [open, setOpen] = useState(false)
+  const [current, setCurrent] = useState(LANGS[0])
+
   useEffect(() => {
     if (document.getElementById('google-translate-script')) return
     ;(window as any).googleTranslateElementInit = () => {
       new (window as any).google.translate.TranslateElement(
-        {
-          pageLanguage: 'ht',
-          includedLanguages: 'ht,fr,en,es,pt,ar,zh-CN,de,it,ru',
-          layout: (window as any).google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false,
-        },
+        { pageLanguage: 'ht', includedLanguages: 'ht,fr,en,es,pt,de,it,ar,zh-CN', autoDisplay: false },
         'google_translate_element'
       )
     }
@@ -24,15 +34,56 @@ export function LanguageSwitcher() {
     document.body.appendChild(script)
   }, [])
 
+  const translateTo = (langCode: string) => {
+    const tryTranslate = (attempts: number) => {
+      const select = document.querySelector('.goog-te-combo') as HTMLSelectElement
+      if (select) {
+        select.value = langCode
+        select.dispatchEvent(new Event('change'))
+      } else if (attempts > 0) {
+        setTimeout(() => tryTranslate(attempts - 1), 500)
+      }
+    }
+    tryTranslate(10)
+  }
+
+  const handleSelect = (lang: typeof LANGS[0]) => {
+    setCurrent(lang)
+    setOpen(false)
+    translateTo(lang.code)
+  }
+
   return (
-    <div className="flex items-center gap-1.5">
-      <Globe className="w-4 h-4 text-ocean-500 shrink-0" />
-      <div id="google_translate_element" className="text-sm" />
+    <div className="relative">
+      {/* Hidden Google Translate element */}
+      <div id="google_translate_element" className="hidden" />
+
+      {/* Custom button */}
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 hover:border-ocean-300 hover:bg-ocean-50 transition-all text-sm font-medium text-gray-700"
+      >
+        <Globe className="w-4 h-4 text-ocean-500" />
+        <span>{current.flag} {current.label}</span>
+        <ChevronDown className={`w-3 h-3 text-gray-400 transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      {open && (
+        <div className="absolute right-0 top-10 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-1.5 z-50 animate-slide-up">
+          {LANGS.map(lang => (
+            <button
+              key={lang.code}
+              onClick={() => handleSelect(lang)}
+              className={`w-full flex items-center gap-2.5 px-4 py-2 text-sm transition-colors ${current.code === lang.code ? 'bg-ocean-50 text-ocean-700 font-semibold' : 'text-gray-700 hover:bg-gray-50'}`}
+            >
+              <span>{lang.flag}</span>
+              <span>{lang.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
+
       <style>{`
-        .goog-te-gadget { font-family: inherit !important; font-size: 13px !important; }
-        .goog-te-gadget-simple { border: 1.5px solid #e2e8f0 !important; border-radius: 10px !important; padding: 4px 10px !important; background: white !important; cursor: pointer !important; }
-        .goog-te-gadget-simple:hover { border-color: #0369a1 !important; background: #f0f9ff !important; }
-        .goog-te-gadget-simple img { display: none !important; }
         .goog-te-banner-frame { display: none !important; }
         body { top: 0 !important; }
         .skiptranslate { display: none !important; }
