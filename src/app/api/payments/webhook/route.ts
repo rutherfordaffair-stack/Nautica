@@ -1,3 +1,4 @@
+export const runtime = "nodejs"
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { prisma } from '@/lib/prisma'
