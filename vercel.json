@@ -1,6 +1,1 @@
-{
-  "buildCommand": "prisma generate && next build",
-  "framework": "nextjs",
-  "installCommand": "npm install",
-  "devCommand": "next dev"
-}
+{"installCommand": "npm install --legacy-peer-deps", "buildCommand": "prisma generate && next build", "framework": "nextjs"}
