@@ -3,6 +3,7 @@ import { Playfair_Display, DM_Sans } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/components/layout/Providers'
 import { Toaster } from 'react-hot-toast'
+import { AIChatbot } from '@/components/ui/AIChatbot'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-body bg-white text-gray-900 antialiased">
         <Providers>
           {children}
+          <AIChatbot />
           <Toaster
             position="top-right"
             toastOptions={{

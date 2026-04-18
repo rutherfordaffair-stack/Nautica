@@ -17,7 +17,22 @@ const BOAT_TYPES = [
   { value: 'FISHING', label: '🎣 Pèch' },
 ]
 
-const COUNTRIES = ['Haiti', 'France', 'USA', 'Espagne', 'Italie', 'Grèce', 'Maroc', 'Mexique', 'Brésil', 'Thaïlande', 'Croatie', 'Portugal', 'Turquie', 'Maldives']
+const COUNTRIES = [
+  // Karayib
+  'Haiti', 'Jamaïque', 'Cuba', 'République Dominicaine', 'Porto Rico', 'Martinique', 'Guadeloupe', 'Bahamas', 'Barbade', 'Trinidad et Tobago', 'Sainte-Lucie', 'Antigua', 'Aruba', 'Curaçao',
+  // Amerik
+  'USA', 'Mexique', 'Brésil', 'Colombie', 'Venezuela', 'Argentine', 'Chili', 'Panama', 'Costa Rica', 'Belize', 'Canada',
+  // Ewòp
+  'France', 'Espagne', 'Italie', 'Grèce', 'Croatie', 'Portugal', 'Turquie', 'Monaco', 'Malte', 'Chypre', 'Monténégro', 'Albanie',
+  // Afrik
+  'Maroc', 'Tunisie', 'Égypte', 'Sénégal', 'Côte d\'Ivoire', 'Mozambique', 'Afrique du Sud',
+  // Azi
+  'Thaïlande', 'Maldives', 'Indonésie', 'Philippines', 'Vietnam', 'Malaisie', 'Sri Lanka', 'Inde', 'Japon',
+  // Oseyani
+  'Australie', 'Nouvelle-Zélande', 'Fidji', 'Tahiti',
+  // Mwayen Oryan
+  'Émirats Arabes Unis', 'Oman', 'Qatar',
+]
 
 interface Props {
   initialParams: Record<string, string | undefined>

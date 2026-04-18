@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Search, MapPin, Calendar, Clock, Users } from 'lucide-react'
 
-const COUNTRIES = ['Haiti', 'France', 'USA', 'Espagne', 'Italie', 'Grèce', 'Maroc', 'Mexique', 'Brésil', 'Thaïlande']
+const COUNTRIES = ['Haiti', 'Jamaïque', 'Cuba', 'République Dominicaine', 'Martinique', 'Guadeloupe', 'Bahamas', 'USA', 'Mexique', 'Brésil', 'France', 'Espagne', 'Italie', 'Grèce', 'Croatie', 'Portugal', 'Turquie', 'Maroc', 'Thaïlande', 'Maldives', 'Indonésie', 'Australie', 'Émirats Arabes Unis']
 
 export function SearchBar() {
   const router = useRouter()

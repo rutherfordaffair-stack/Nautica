@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useSession, signOut } from 'next-auth/react'
 import { Menu, X, Anchor, ChevronDown, Plus, Ship, Heart, User, LogOut, LayoutDashboard } from 'lucide-react'
+import { LanguageSwitcher } from './LanguageSwitcher'
 
 export function Navbar() {
   const { data: session } = useSession()
@@ -36,6 +37,7 @@ export function Navbar() {
 
           {/* Auth */}
           <div className="hidden md:flex items-center gap-3">
+            <LanguageSwitcher />
             {session ? (
               <div className="relative">
                 <button
